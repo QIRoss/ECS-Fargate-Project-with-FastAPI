@@ -60,7 +60,11 @@ resource "aws_ecs_service" "fastapi_service" {
   cluster         = aws_ecs_cluster.fastapi_cluster.id
   task_definition = aws_ecs_task_definition.fastapi_task.arn
   desired_count   = 1
-  launch_type     = "FARGATE"
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 1
+  }
 
   network_configuration {
     subnets         = ["subnet-01fb57be965f0ab32"]
